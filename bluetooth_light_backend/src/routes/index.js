@@ -1,35 +1,22 @@
 const express = require('express');
 const healthController = require('../controllers/health');
 
-const router = express.Router();
-// Health endpoint
+const authRoutes = require('./auth');
+const devicesRoutes = require('./devices');
+const lightRoutes = require('./light');
+const routinesRoutes = require('./routines');
+const logsRoutes = require('./logs');
 
-/**
- * @swagger
- * /:
- *   get:
- *     summary: Health endpoint
- *     responses:
- *       200:
- *         description: Service health check passed
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   example: ok
- *                 message:
- *                   type: string
- *                   example: Service is healthy
- *                 timestamp:
- *                   type: string
- *                   format: date-time
- *                 environment:
- *                   type: string
- *                   example: development
- */
+const router = express.Router();
+
+// Health/Root endpoint
 router.get('/', healthController.check.bind(healthController));
+
+// Add all RESTful API endpoints
+router.use('/auth', authRoutes);
+router.use('/devices', devicesRoutes);
+router.use('/light', lightRoutes);
+router.use('/routines', routinesRoutes);
+router.use('/logs', logsRoutes);
 
 module.exports = router;
